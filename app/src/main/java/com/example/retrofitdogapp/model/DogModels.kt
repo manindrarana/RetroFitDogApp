@@ -1,12 +1,14 @@
 package com.example.retrofitdogapp.model
 
+import com.google.gson.annotations.SerializedName
+
 data class DogBreedsResponse(
-    val message: Map<String, List<String>>,
-    val status: String
+    @SerializedName("message") val message: Map<String, List<String>>,
+    @SerializedName("status") val status: String
 )
 
 data class RandomDogImageResponse(
-    val message: String,
-    val status: String
+    @SerializedName("message") val message: String,
+    @SerializedName("status") val status: String
 )
 
