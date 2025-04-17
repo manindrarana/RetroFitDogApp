@@ -7,13 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.retrofitdogapp.network.dogApiService
 import kotlinx.coroutines.launch
 
-class DogViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val _dogBreedsState = mutableStateOf(DogBreedsState())
     val dogBreedsState: State<DogBreedsState> = _dogBreedsState
-
-    private val _randomDogImageState = mutableStateOf(RandomDogImageState())
-    val randomDogImageState: State<RandomDogImageState> = _randomDogImageState
 
     init {
         fetchDogBreeds()
@@ -23,24 +20,28 @@ class DogViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = dogApiService.getDogBreeds()
-                val breeds = response.message.keys.toList()
-                _dogBreedsState.value = DogBreedsState(breeds = breeds, loading = false)
+                val allBreeds = response.message.keys.toList()
+                _dogBreedsState.value = DogBreedsState(breeds = allBreeds, loading = false)
             } catch (e: Exception) {
-                _dogBreedsState.value = DogBreedsState(error = "Error: ${e.message}")
+                _dogBreedsState.value = DogBreedsState(loading = false, error = "Error fetching dog breeds: ${e.message}")
             }
         }
     }
 
-    fun fetchRandomDogImage(breed: String) {
+    fun randomDogImageState(breed: String): State<RandomDogImageState> {
+        val randomDogImageState = mutableStateOf(RandomDogImageState())
+
         viewModelScope.launch {
+            randomDogImageState.value = RandomDogImageState(loading = true)
             try {
-                _randomDogImageState.value = RandomDogImageState(loading = true)
                 val response = dogApiService.getRandomDogImage(breed)
-                _randomDogImageState.value = RandomDogImageState(imageUrl = response.message)
+                randomDogImageState.value = RandomDogImageState(imageUrl = response.message, loading = false)
             } catch (e: Exception) {
-                _randomDogImageState.value = RandomDogImageState(error = "Error: ${e.message}")
+                randomDogImageState.value = RandomDogImageState(error = "Error fetching random image: ${e.message}")
             }
         }
+
+        return randomDogImageState
     }
 
     data class DogBreedsState(

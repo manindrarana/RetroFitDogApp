@@ -56,7 +56,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
+    
+    implementation("androidx.compose.runtime:runtime:1.5.1")
     //Compose ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     //Network calls
@@ -65,5 +66,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     //Image loading
     implementation("io.coil-kt:coil-compose:2.6.0")
+
+    //navigationn 
+    val nav_version = "2.7.2"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
 
 }
