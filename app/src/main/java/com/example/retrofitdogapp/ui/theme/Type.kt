@@ -14,7 +14,6 @@ val CustomFontFamily = FontFamily(
     Font(R.font.montserrat_semibold, FontWeight.Bold)
 )
 
-// Typography styles
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = CustomFontFamily,
